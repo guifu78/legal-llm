@@ -15,10 +15,17 @@ logs/
 .DS_Store
 Thumbs.db
 
-# 训练 checkpoint
+# 训练 checkpoint 和模型
 finetuned/checkpoint-*/
+finetuned/final/
 finetuned/adapter_model.safetensors
 finetuned/training_args.bin
+finetuned/optimizer.pt
+finetuned/rng_state.pth
+finetuned/scheduler.pt
+finetuned/merges.txt
+finetuned/tokenizer.json
+finetuned/vocab.json
 
 # 中间生成文件
 gen_ui.py
