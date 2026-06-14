@@ -1,0 +1,26 @@
+# 基础模型（太大，从 HuggingFace 自动下载）
+models/
+
+# 虚拟环境
+venv/
+__pycache__/
+*.pyc
+
+# 日志
+logs/
+
+# 临时文件
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+
+# 训练 checkpoint
+finetuned/checkpoint-*/
+finetuned/adapter_model.safetensors
+finetuned/training_args.bin
+
+# 中间生成文件
+gen_ui.py
+write_ui.py
+test_model.py

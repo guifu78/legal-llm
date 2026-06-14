@@ -1,0 +1,77 @@
+# 法律大模型训练配置
+
+# 基础模型配置
+model:
+  name: "Qwen/Qwen2.5-7B-Instruct"  # 基础模型名称
+  path: "./models/Qwen/Qwen2___5-7B-Instruct"  # 本地模型路径
+  max_length: 2048  # 最大序列长度（8GB显存优化）
+  torch_dtype: "float16"  # 数据类型
+
+# LoRA微调配置
+lora:
+  r: 64  # LoRA秩
+  lora_alpha: 128  # LoRA alpha参数
+  lora_dropout: 0.05  # Dropout率
+  target_modules:  # 目标模块
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+  bias: "none"
+
+# 量化配置
+quantization:
+  bits: 4  # 4-bit量化
+  quant_type: "nf4"  # 量化类型
+  double_quant: true  # 双重量化
+  compute_dtype: "bfloat16"  # 计算数据类型
+
+# 训练配置 - 针对 RTX 5070 (8GB显存) 优化
+training:
+  output_dir: "./finetuned"  # 输出目录
+  num_train_epochs: 3  # 训练轮数
+  per_device_train_batch_size: 2  # 批次大小（8GB显存推荐）
+  gradient_accumulation_steps: 8  # 梯度累积（有效批次=16）
+  learning_rate: 2e-4  # 学习率
+  weight_decay: 0.01  # 权重衰减
+  warmup_ratio: 0.03  # 预热比例
+  lr_scheduler_type: "cosine"  # 学习率调度器
+  logging_steps: 10  # 日志间隔
+  save_steps: 100  # 保存间隔（减少等待时间）
+  save_total_limit: 3  # 最大保存数量
+  fp16: false  # 不使用fp16
+  bf16: true  # 使用bf16（RTX 5070支持）
+  gradient_checkpointing: true  # 梯度检查点（节省显存）
+  optim: "adamw_torch"  # 优化器
+  max_grad_norm: 1.0  # 梯度裁剪
+  dataloader_num_workers: 0  # Windows兼容性
+
+# DeepSpeed配置
+deepspeed:
+  enabled: true
+  stage: 2  # ZeRO Stage
+  
+# 数据配置
+data:
+  train_file: "./data/train.jsonl"
+  val_file: "./data/val.jsonl"
+  max_seq_length: 4096
+  preprocessing_num_workers: 4
+  
+# 评估配置
+evaluation:
+  eval_steps: 500
+  eval_strategy: "steps"
+  metric_for_best_model: "loss"
+  
+# 日志配置
+logging:
+  logging_dir: "./logs"
+  report_to: "tensorboard"
+  
+# 其他配置
+seed: 42
+dataloader_num_workers: 4

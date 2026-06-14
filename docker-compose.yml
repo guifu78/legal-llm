@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  legal-llm:
+    build: .
+    container_name: legal-llm-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./finetuned:/app/finetuned
+      - ./models:/app/models
+      - ./data:/app/data
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped

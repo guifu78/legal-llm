@@ -1,0 +1,32 @@
+# 基础依赖
+torch>=2.0.0
+transformers>=4.35.0
+tokenizers>=0.15.0
+datasets>=2.14.0
+accelerate>=0.24.0
+
+# 高效微调工具
+peft>=0.6.0
+bitsandbytes>=0.41.0
+
+# 数据处理
+pandas>=2.0.0
+numpy>=1.24.0
+
+# 可视化
+tensorboard>=2.14.0
+matplotlib>=3.7.0
+
+# 模型量化
+auto-gptq>=0.4.0
+optimum>=1.13.0
+
+# 服务部署
+fastapi>=0.104.0
+uvicorn>=0.24.0
+pydantic>=2.0.0
+
+# 工具库
+tqdm>=4.65.0
+loguru>=0.7.0
+jsonlines>=3.1.0
